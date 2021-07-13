@@ -11,6 +11,7 @@ function NewTicketForm(props) {
 
   function addTicketToFirestore(event) {
     event.preventDefault();
+    props.onNewTicketCreation();
     return firestore.collection('tickets').add(
       {
         names: event.target.names.value,
