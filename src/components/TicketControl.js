@@ -20,11 +20,11 @@ class TicketControl extends React.Component {
   componentDidMount() {
     this.waitTimeUpdateTimer = setInterval(() =>
       this.updateTicketElapsedWaitTime(),
-    60000
+      60000
     );
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.waitTimeUpdateTimer);
   }
 
@@ -52,53 +52,53 @@ class TicketControl extends React.Component {
 
   handleAddingNewTicketToList = (newTicket) => {
     const { dispatch } = this.props;
-    const action = a.addTicket(newTicket)
-    dispatch(action);
+    // const action = a.addTicket(newTicket)
+    // dispatch(action);
     const action2 = a.toggleForm();
     dispatch(action2);
   }
 
   handleChangingSelectedTicket = (id) => {
     const selectedTicket = this.props.masterTicketList[id];
-    this.setState({selectedTicket: selectedTicket});
+    this.setState({ selectedTicket: selectedTicket });
   }
 
   handleEditClick = () => {
-    this.setState({editing: true});
+    this.setState({ editing: true });
   }
 
-  handleEditingTicketInList = (ticketToEdit) => {
-    const { dispatch } = this.props;
-    const action = a.addTicket(ticketToEdit);
-    dispatch(action);
-    this.setState({
-      editing: false,
-      selectedTicket: null
-    });
-  }
+  // handleEditingTicketInList = (ticketToEdit) => {
+  //   const { dispatch } = this.props;
+  //   const action = a.addTicket(ticketToEdit);
+  //   dispatch(action);
+  //   this.setState({
+  //     editing: false,
+  //     selectedTicket: null
+  //   });
+  // }
 
   handleDeletingTicket = (id) => {
     const { dispatch } = this.props;
     const action = a.deleteTicket(id);
     dispatch(action);
-    this.setState({selectedTicket: null});
+    this.setState({ selectedTicket: null });
   }
 
-  render(){
+  render() {
     let currentlyVisibleState = null;
     let buttonText = null;
-    if (this.state.editing ) {      
-      currentlyVisibleState = <EditTicketForm ticket = {this.state.selectedTicket} onEditTicket = {this.handleEditingTicketInList} />
+    if (this.state.editing) {
+      currentlyVisibleState = <EditTicketForm ticket={this.state.selectedTicket} onEditTicket={this.handleEditingTicketInList} />
       buttonText = "Return to Ticket List";
     } else if (this.state.selectedTicket != null) {
-      currentlyVisibleState = 
-      <TicketDetail 
-        ticket = {this.state.selectedTicket} 
-        onClickingDelete = {this.handleDeletingTicket} 
-        onClickingEdit = {this.handleEditClick} />
+      currentlyVisibleState =
+        <TicketDetail
+          ticket={this.state.selectedTicket}
+          onClickingDelete={this.handleDeletingTicket}
+          onClickingEdit={this.handleEditClick} />
       buttonText = "Return to Ticket List";
     } else if (this.props.formVisibleOnPage) {
-      currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}  />;
+      currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List";
     } else {
       currentlyVisibleState = <TicketList ticketList={this.props.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket} />;
